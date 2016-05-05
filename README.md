@@ -1,2 +1,4 @@
 # simple-backpropagation
-First attempt to implement a neural network using _backpropagation_ in Python.
+First attempt to implement a simple feed-forward neural network using numpy in Python.
+
+Partiatlly inspired by (mattm/simple-neural-network)[https://github.com/mattm/simple-neural-network]
