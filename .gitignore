@@ -62,5 +62,5 @@ target/
 .ipynb_checkpoints
 
 #Others
-neural-network.py
-test.py
+/neural-network.py
+/test.py
