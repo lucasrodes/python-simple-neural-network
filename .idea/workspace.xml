@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fd0e4d94-d5d4-49f3-9e35-745a2b82a485" name="Default" comment="">
+    <list default="true" id="fd0e4d94-d5d4-49f3-9e35-745a2b82a485" name="Default" comment="Modified .gitignore">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="simple-backpropagation.iws" />
@@ -413,7 +413,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462468103586</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Modified .gitignore">
+      <created>1462468148809</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1462468148809</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -452,6 +459,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="Added main file" />
     <MESSAGE value="Readme edit" />
     <MESSAGE value="Updated main function, initialization of weight matrices." />
