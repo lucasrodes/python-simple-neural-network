@@ -19,6 +19,7 @@ class NeuralNetwork:
             layer = NeuronLayer(self.neurons_per_layer[layer_index - 1],
                                 self.neurons_per_layer[layer_index], layer_index)  # Create new neuron layer
             self.add_layer(layer)  # Add the new neuron layer to the list of neuron layers
+        self.neuron_layers_list[self.num_layers-2].output_layer = True # Set flag "output_layer" to True for last NL
 
     # Add neuron layer to the list of neuron layers
     def add_layer(self, layer):
@@ -29,20 +30,40 @@ class NeuralNetwork:
         print '\n-----------------------------------------'
         print 'Neural Network details: Layer transitions'
         print '-----------------------------------------\n'
-
+        count = 0
         for neuron_layer in self.neuron_layers_list:
-            print neuron_layer.num_inputs, '->', neuron_layer.num_neurons
-            print 'Activation = ', neuron_layer.activations
-            print 'Activity = ', neuron_layer.activities
+            print 'Transition', neuron_layer.ID, ':', neuron_layer.num_inputs, '->', neuron_layer.num_neurons
+            print 'Weight Matrix =', neuron_layer.weight_matrix
+            if count == self.num_layers-2:
+                print 'last'
+                break
+            else:
+                print 'Activation = ', neuron_layer.activations
+                print 'Activity = ', neuron_layer.activities
+            print '\n-----------------------------------------------------'
+            count += 1
+        print
+        print 'Estimated Output = ', neuron_layer.activations
 
     # Execute forward algorithm
     def forward(self, feature_vector):
         inputs = feature_vector
-        for neuron_layer in self.neuron_layers_list:
+        # Flip neuron layer list, since error BACK-propagates
+        neuron_layers_list = self.neuron_layers_list[::-1]
+        for neuron_layer in neuron_layers_list:
             inputs = neuron_layer.forward(inputs)
+        return inputs  # This is the estimated output vector
 
-    def train(self):
-        a = 0
+    # Execute the backward algorithm
+    def backward(self, output_error_gradient):
+        delta = output_error_gradient
+        for neuron_layer in self.neuron_layers_list:
+            delta = neuron_layer.backward(delta)
+
+    def train(self, feature_vector, real_output):
+        estimated_output = self.forward(feature_vector)
+        output_error_gradient = -2*(real_output - estimated_output)  # Squared Error: E = 1/2*(real-estimation)^2
+        self.backward(output_error_gradient)
 
 
 class NeuronLayer:
@@ -56,6 +77,7 @@ class NeuronLayer:
         self.init_weights()
         self.activations = np.matrix([])  # Activations (all neurons) in this layer
         self.activities = np.array([])  # Activity (all neurons) in this layer, i.e. tresholded activations
+        self.output_layer = False  # Flag to denote if this layer is the output layer
 
     # Initialize the weights of this layer, i.e. the weight matrix W
     def init_weights(self):
@@ -72,14 +94,18 @@ class NeuronLayer:
         except:
             print >> sys.stderr, 'Error computing activation at layer', self.ID,'-- Please check the input feature vectors.'
             quit()
-        # Compute activity
-        self.non_linearity()
+        # Compute activities
+        self.activation_function()
         return self.activities
 
     # Apply non-linearity to the activations
-    def non_linearity(self):
-        for activation in self.activations:
-            self.activities = np.append(self.activities, sigmoid(activation))
+    def activation_function(self):
+        if self.output_layer:
+            self.activities = self.activations
+        else:
+            for activation in self.activations:
+                self.activities = np.append(self.activities, sigmoid(activation))
+
 
 # Sigmoid function
 def sigmoid(x):
@@ -89,4 +115,6 @@ def sigmoid(x):
 v = np.array([0.05, 0.10])
 a = NeuralNetwork((2, 2, 2, 2))
 a.forward(v)
+
+print 'Input = ', v
 a.check()
