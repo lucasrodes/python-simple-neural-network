@@ -29,26 +29,27 @@ class NeuralNetwork:
         print 'Neural Network details: Layer transitions'
         print '-----------------------------------------\n'
 
-
         for neuron_layer in self.neuron_layers_list:
             print neuron_layer.num_inputs, '->', neuron_layer.num_neurons
 
-    def init_weights(self):
-        b = 0
-
-    def forward(self, x):
-        a = 0
+    def forward(self):
+        for neuron_layer in self.neuron_layers_list:
+            neuron_layer.forward()
 
     def train(self):
         a = 0
+
 
 class NeuronLayer:
 
     # Initialize the neuron layer
     def __init__(self, num_inputs, num_neurons):
-        self.num_inputs = num_inputs
-        self.num_neurons = num_neurons
-        self.weight_matrix = self.init_weights
+        self.num_inputs = num_inputs  # Number of inputs
+        self.num_neurons = num_neurons  # Number of neurons in the layer
+        self.weight_matrix = numpy.matrix  # Weight matrix of this layer
+        self.init_weights()
+        self.activations = numpy.matrix  # Activations (all neurons) in this layer
+        self.activity = numpy.matrix  # Activity (all neurons) in this layer, i.e. tresholded activations
 
     # Initialize the weights of this layer, i.e. the weight matrix W
     def init_weights(self):
@@ -56,7 +57,18 @@ class NeuronLayer:
         mu = 0
         sigma = 0.5
         self.weight_matrix = numpy.random.normal(mu, sigma, [self.num_neurons, self.num_inputs])
+        # print str(self.weight_matrix)
 
+    # Compute activation and activity values in this layer
+    def forward(self):
+        a = 0
+        self.activations = self.weight_matrix.dot(self.inputs)
+        self.activations.non_linearity()
+        #self.weight_matrix
+
+    def non_linearity(self):
+        a=0
 
 a = NeuralNetwork((2, 3, 2))
 a.check()
+a.forward()
