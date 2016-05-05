@@ -139,6 +139,3 @@ Input = np.array([0.05, 0.10])
 Output = np.array([0.01, 0.99])
 NN = NeuralNetwork((2, 20, 2))
 NN.train(Input, Output)
-
-#print 'Input = ', Input
-#a.check()
