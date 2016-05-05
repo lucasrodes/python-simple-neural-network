@@ -4,13 +4,14 @@ import math
 
 
 class NeuralNetwork:
-    LEARNING_RATE = 0.5
+    #LEARNING_RATE = 0.1
 
     # Initialize Neural Network
     def __init__(self, neurons_per_layer):  # For instance, neurons_per_layer = [2,3,2]
         self.neurons_per_layer = neurons_per_layer  # Neurons in each layer
         self.num_layers = len(neurons_per_layer)  # Number of layers
         self.neuron_layers_list = []  # Vector containing all Neuron Layer objects
+        self.LEARNING_RATE = 0.2
         self.init_neuron_layers()
 
     # Initialize all neuron layers
@@ -19,7 +20,7 @@ class NeuralNetwork:
         # Loop for all layers and assign them their corresponding number of inputs and neurons
         for layer_index in range(1, self.num_layers):
             layer = NeuronLayer(self.neurons_per_layer[layer_index - 1],
-                                self.neurons_per_layer[layer_index], layer_index)  # Create new neuron layer
+                                self.neurons_per_layer[layer_index], layer_index, self.LEARNING_RATE)  # Create new neuron layer
             self.add_layer(layer)  # Add the new neuron layer to the list of neuron layers
         self.neuron_layers_list[self.num_layers-2].output_layer = True # Set flag "output_layer" to True for last NL
 
@@ -63,18 +64,28 @@ class NeuralNetwork:
             delta, weight_matrix = neuron_layer.backward_step(delta, weight_matrix)
 
     def train(self, feature_vector, real_output):
-        for i in range(1, 1000):
-            estimated_output = self.forward_step(feature_vector)
-            print 'Iteration', i, 'Estimated Output = ', estimated_output
-            output_error_gradient = -2*(real_output - estimated_output)  # Squared Error: E = 1/2*(real-estimation)^2
-            self.backward_step(output_error_gradient)
+        for epoch in range(1, 1000):
+            print self.LEARNING_RATE
+            print 'Epoch', epoch
+            for i in range(0, 4):
+                estimated_output = self.forward_step(feature_vector[i])
+                print 'Est = ', estimated_output, 'Real = ', real_output[i], 'Dif = ', estimated_output-real_output[i]
+                output_error_gradient = -2*(real_output[i] - estimated_output)  # Squared Error: E = 1/2*(real-estimation)^2
+                self.backward_step(output_error_gradient)
+            self.update_learning_rate(1)
 
+    def update_learning_rate(self, factor):
+        for neuron_layer in self.neuron_layers_list:
+            neuron_layer.LEARNING_RATE *= factor
+
+    def input(self, feature_vector):
+        return self.forward_step(feature_vector)
 
 class NeuronLayer:
 
     # Initialize the neuron layer
-    def __init__(self, num_inputs, num_neurons, ID):
-        self.LEARNING_RATE = 0.05
+    def __init__(self, num_inputs, num_neurons, ID, LEARNING_RATE):
+        self.LEARNING_RATE = LEARNING_RATE
         self.ID = ID  # ID of the layer
         self.num_inputs = num_inputs  # Number of inputs
         self.num_neurons = num_neurons  # Number of neurons in the layer
@@ -134,8 +145,13 @@ class NeuronLayer:
 def sigmoid(x):
     return 1/(1+math.exp(-x))
 
+# Script
+Input = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+OR = np.array([0, 1, 1, 1])
+XOR = np.array([0, 1, 1, 0])
+AND = np.array([0, 0, 0, 1])
+NN = NeuralNetwork((np.size(Input[0]), 5, np.size(AND[0])))
+NN.train(Input, AND)
 
-Input = np.array([0.05, 0.10])
-Output = np.array([0.01, 0.99])
-NN = NeuralNetwork((2, 20, 2))
-NN.train(Input, Output)
+# Check
+print NN.input(np.array([0, 1]))
