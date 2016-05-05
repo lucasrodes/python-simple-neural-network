@@ -34,7 +34,7 @@ class NeuralNetwork:
             print neuron_layer.num_inputs, '->', neuron_layer.num_neurons
 
     def init_weights(self):
-        a = 0
+        b = 0
 
     def forward(self, x):
         a = 0
