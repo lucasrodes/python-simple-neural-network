@@ -27,8 +27,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="155" column="7" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
+            <state relative-caret-position="54">
+              <caret line="148" column="16" selection-start-line="148" selection-start-column="16" selection-end-line="148" selection-end-column="16" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -462,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462487242177</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Tests with AND, OR, XOR succesfull">
+      <created>1462489172386</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1462489172386</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -511,7 +518,8 @@
     <MESSAGE value="Corrected Forward step minor errors. Started Backward step." />
     <MESSAGE value="First pre-version, works for 1 input - 1 output" />
     <MESSAGE value="Layout issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Layout issues" />
+    <MESSAGE value="Tests with AND, OR, XOR succesfull" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests with AND, OR, XOR succesfull" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -601,8 +609,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="155" column="7" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
+        <state relative-caret-position="54">
+          <caret line="148" column="16" selection-start-line="148" selection-start-column="16" selection-end-line="148" selection-end-column="16" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

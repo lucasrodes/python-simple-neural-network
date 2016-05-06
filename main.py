@@ -64,15 +64,16 @@ class NeuralNetwork:
             delta, weight_matrix = neuron_layer.backward_step(delta, weight_matrix)
 
     def train(self, feature_vector, real_output):
-        for epoch in range(1, 1000):
-            print self.LEARNING_RATE
-            print 'Epoch', epoch
-            for i in range(0, 4):
+        for epoc in range(1, 1000):
+            if epoc % 100 == 0:
+                print 'Epoc ', epoc
+            #print len(feature_vector)
+            for i in range(0, len(feature_vector)):
                 estimated_output = self.forward_step(feature_vector[i])
-                print 'Est = ', estimated_output, 'Real = ', real_output[i], 'Dif = ', estimated_output-real_output[i]
+                #print 'Est = ', estimated_output, 'Real = ', real_output[i], 'Dif = ', estimated_output-real_output[i]
                 output_error_gradient = -2*(real_output[i] - estimated_output)  # Squared Error: E = 1/2*(real-estimation)^2
                 self.backward_step(output_error_gradient)
-            self.update_learning_rate(1)
+            self.update_learning_rate(0.99)
 
     def update_learning_rate(self, factor):
         for neuron_layer in self.neuron_layers_list:
@@ -145,13 +146,35 @@ class NeuronLayer:
 def sigmoid(x):
     return 1/(1+math.exp(-x))
 
-# Script
-Input = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-OR = np.array([0, 1, 1, 1])
-XOR = np.array([0, 1, 1, 0])
-AND = np.array([0, 0, 0, 1])
-NN = NeuralNetwork((np.size(Input[0]), 5, np.size(AND[0])))
-NN.train(Input, AND)
+# Choose example
+Example = 1
+
+if Example == 1:
+    N = 2
+    Input = []
+    Output = []
+    for i in range(0, N + 1):
+        for j in range(0, N + 1):
+            Input.append([i, j])
+            Output.append(i+j)
+    Input = np.array(Input)
+    Output = np.array(Output)
+
+elif Example == 2:
+    Input = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    OR = np.array([0, 1, 1, 2])
+    XOR = np.array([0, 1, 1, 0])
+    AND = np.array([0, 0, 0, 1])
+
+# Initialize network
+NN = NeuralNetwork((np.size(Input[0]), 5, np.size(Output[0])))
+# Train network
+NN.train(Input, Output)
 
 # Check
-print NN.input(np.array([0, 1]))
+while True:
+    feature_vector = raw_input('Introduce an input value (Format: input1, input2, ...): ')
+    feature_vector = np.array(map(int, feature_vector.split(',')))
+    print NN.forward_step(feature_vector)
+
+
